@@ -1,0 +1,398 @@
+//FIR MANAGMENT SYSTEM
+		  //CREATED BY Aman 
+		  //MGM HIGHER SECONDRY SCHOOL
+#include<iostream.h>
+#include<fstream.h>
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+ class ADD			//Class for new fir lodging
+{
+
+private:
+char ch;
+  
+struct details		//structure to take details of user efficientlly
+  {
+    
+char firno;
+     
+char name[20];
+     
+char date[10];
+     
+char time[10];
+     
+char FIR[1000];
+   
+} det;			// object of detail
+
+public:
+ 
+ 
+void take () 
+  {
+    
+clrscr ();
+    
+int i;
+    
+char x = 'y';
+    
+fstream f;
+    
+f.open ("check11.txt", ios::app);
+    
+while (x == 'y')
+      
+      {
+      
+edit:
+cout << "\nEnter FIR no :\n ";
+	
+cin >> det.firno;
+	
+cout << "\nEnter name of person\n";
+	
+gets (det.name);
+	
+cout << "\nEnter current date\n";
+	
+gets (det.date);
+	
+cout << "\nEnter current time\n";
+	
+gets (det.time);
+	
+cout << "\nEnter FIR report not more than in 100 words:\n";
+	
+gets (det.FIR);
+	
+cout <<
+	  "\nSubmit and close(y),Submit and enter new FIR(n) Edit above FIR(e)...?";
+	
+cin >> x;
+	
+switch (x)
+	  
+	  {
+	  
+case 'y':
+	    
+cout << "Success";
+	    
+f.write ((char *) &det, sizeof (det));
+	    
+x = 'n';
+	    
+break;
+	  
+case 'e':
+	    
+goto edit;
+	    
+break;
+	  
+case 'n':
+	    cout << "Success";
+	    
+f.write ((char *) &det, sizeof (det));
+	    
+x = 'y';
+	    
+break;
+	  
+}
+      
+}
+    
+f.close ();
+    
+getch ();
+  
+}
+  
+ 
+void search () 
+  {
+    
+clrscr ();
+    
+char x;
+    
+long pos;
+    
+char found = 'f';
+    
+cout << "\nEnter FIR no :";
+    
+cin >> x;
+    
+fstream p;
+    
+p.open ("check11.txt", ios::in | ios::out | ios::binary);
+    
+while (!p.eof ())
+      
+      {
+	
+pos = p.tellg ();
+	
+p.read ((char *) &det, sizeof (det));
+	
+if (det.firno == x)
+	  
+	  {
+	    
+cout << det.firno << "\n\n";
+	    
+cout << det.name << "\n\n";
+	    
+cout << det.date << "\n\n";
+	    
+cout << det.time << "\n\n";
+	    
+cout << det.FIR;
+	    
+found = 't';
+	    
+break;
+	  
+}
+      
+}
+    
+if (found == 'f')
+      
+cout << "\nFIR does not exit\n";
+    
+getch ();
+  
+}
+  
+ 
+ 
+void change () 
+  {
+    
+clrscr ();
+    
+char x;
+    
+long pos;
+    
+char found = 'f';
+    
+char nm[20] = "";
+    
+char dt[10] = "";
+    
+char tt[10] = "";
+    
+char fr[1000] = "";
+    
+cout << "\nEnter FIR no to modify record:";
+    
+cin >> x;
+    
+fstream p;
+    
+p.open ("check11.txt", ios::in | ios::out | ios::binary);
+    
+while (!p.eof ())
+      
+      {
+	
+pos = p.tellg ();
+	
+p.read ((char *) &det, sizeof (det));
+	
+if (det.firno == x)
+	  
+	  {
+	    
+cout << det.firno << "\n\n";
+	    
+cout << det.name << "\n\n";
+	    
+cout << det.date << "\n\n";
+	    
+cout << det.time << "\n\n";
+	    
+cout << det.FIR;
+	    
+cout << "\nEnter new details:\n";
+	    
+cout << "\nEnter new name('.'to retain old one):\n";
+	    
+gets (nm);
+	    
+cout << "\nEnter current date('.'to retain old one):\n";
+	    
+gets (dt);
+	    
+cout << "\nEnter current time('.'to retain old one):\n";
+	    
+gets (tt);
+	    
+cout << "\nEnter current FIR('.'to retain old one):\n";
+	    
+gets (fr);
+	    
+if (strcmp (nm, ".") != 0)
+	      
+strcpy (det.name, nm);
+	    
+if (strcmp (dt, ".") != 0)
+	      
+strcpy (det.date, dt);
+	    
+if (strcmp (tt, ".") != 0)
+	      
+strcpy (det.time, tt);
+	    
+if (strcmp (fr, ".") != 0)
+	      
+strcpy (det.FIR, fr);
+	    
+p.seekg (pos);
+	    
+p.write ((char *) &det, sizeof (det));
+	    
+found = 't';
+	    
+break;
+	  
+}
+      
+}
+    
+if (found == 'f')
+      
+cout << "\nFIR does not exit\n";
+    
+    else
+      {
+	
+p.seekg (0);
+	
+cout << "Modified FIR is: \n";
+	
+while (!p.eof ())
+	  
+	  {
+	    
+p.read ((char *) &det, sizeof (det));
+	    
+cout << det.firno << "\n\n";
+	    
+cout << det.name << "\n\n";
+	    
+cout << det.date << "\n\n";
+	    
+cout << det.time << "\n\n";
+	    
+cout << det.FIR;
+	  
+}
+      }
+    
+p.close ();
+    
+getch ();
+  
+}
+
+ 
+};
+
+
+ 
+ 
+class home:private ADD	//Class for hompage containing all function
+{
+
+private:
+char uname[20];
+  
+int c;			//variable for choice
+public:
+ 
+home () 
+  {
+    
+cout << "\nEnter user name\n";	//saving the name of current user
+    gets (uname);
+    
+fstream utake ("userdetail.txt", ios::app);	//it can also be used to validate user
+    utake << uname << "\n";
+    
+utake.close ();
+  
+} 
+ 
+void homepage () 
+  {
+    
+clrscr ();
+    
+cout << "\n\n                        FIR MANEGMENT SYSTEM         \n   ";
+    
+cout << "\n                        Created By Aman & Aman        ";
+    
+cout << "\n                        MGM Higher Secondry School    ";
+    
+cout << "\n\n 1.LODGE NEW FIR \n\n 2.VIEW PREVIOUS FIR \n\n";
+    
+cout << " 3.EDIT FIR \n\n 4.DELETE FIR \n";
+    
+cout << "\nENTER YOUR CHOICE(in numerical commands;) : ";
+    
+cin >> c;
+    
+switch (c)
+      
+      {
+      
+case 1:
+	take ();
+	
+break;
+      
+case 2:
+	search ();
+	
+break;
+      
+case 3:
+	change ();
+	
+break;
+      
+}
+    
+getch ();
+  
+}
+
+ 
+};
+
+
+ 
+ 
+//main function from here
+  void
+main () 
+{
+  
+clrscr ();
+  
+home h;			//object for homepage
+  h.homepage ();
+  
+getch ();
+
+}
